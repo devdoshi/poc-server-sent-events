@@ -1,0 +1,28 @@
+<html>
+<head>
+
+</head>
+<body>
+<script type="text/javascript">
+  async function main() {
+
+    const response = await fetch('/events', {
+      method: 'post'
+    });
+    if (response.ok) {
+      const body = await response.json();
+      const {url} = body;
+      console.log({url});
+      const events = new EventSource(url);
+      events.onmessage = (event) => {
+        const parsedData = JSON.parse(event.data);
+
+        console.log(parsedData);
+      };
+    }
+  }
+
+  main();
+</script>
+</body>
+</html>
